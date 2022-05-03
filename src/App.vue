@@ -1,8 +1,5 @@
 <script setup lang="ts">
-  import { FontAwesomeIcon } from './components/FontAwesomeIcon';
   import { MembershipCard } from './components/MembershipCard';
-  import { computed, ref } from 'vue';
-  import { isEmpty } from 'lodash';
   import { useForm, useField } from 'vee-validate';
   import * as yup from 'yup';
 
