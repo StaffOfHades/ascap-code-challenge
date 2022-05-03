@@ -101,7 +101,7 @@
         'Success!',
         `A member type of "${values.membershipType}" was selected.`,
       ];
-      if (memberIsPublisher(values.membershipType)) {
+      if (values.membershipType && memberIsPublisher(values.membershipType)) {
         messages.push(
           `Since you are a publisher, you have declared its of type "${values.publisherType}".`,
         );
