@@ -170,12 +170,17 @@
             provided by you in connection with your application. Any information
             processed by TINCheck and SmartyStreets shall be subject to the
             privacy policies of
-            <a href="https://www.tincheck.com/pages/tincheck-agreement"
+            <a
+              href="https://www.tincheck.com/pages/tincheck-agreement"
+              rel="noopener noreferrer"
+              target="_blank"
               >TINCheck</a
             ><span> and </span
             ><a
               href="
           https://smartystreets.com/legal/privacy-policy"
+              rel="noopener noreferrer"
+              target="_blank"
               >SmartyStreets.</a
             >
           </span>
