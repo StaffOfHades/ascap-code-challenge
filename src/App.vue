@@ -1,6 +1,10 @@
 <script setup lang="ts">
-  import { MembershipCard } from './components/MembershipCard/';
-  import { ref } from 'vue';
+  import { FontAwesomeIcon } from './components/FontAwesomeIcon';
+  import { MembershipCard } from './components/MembershipCard';
+  import { computed, ref } from 'vue';
+  import { isEmpty } from 'lodash';
+  import { useForm, useField } from 'vee-validate';
+  import * as yup from 'yup';
 
   interface Card {
     description: string;
@@ -10,7 +14,32 @@
     requirements: Array<string>;
   }
 
-  const selectedCard = ref<null | string>(null);
+  const validationSchema = yup.object({
+    membershipType: yup
+      .string()
+      .required('Please select your membership type.'),
+    publisherType: yup.string().test({
+      exclusive: true,
+      message: 'Please select your publisher company type.',
+      name: 'publisherType',
+      test: (value: string | undefined, { parent }) =>
+        ['Writer & Publisher', 'Publisher'].includes(parent.membershipType)
+          ? !!value
+          : true,
+    }),
+  });
+
+  const { handleSubmit } = useForm({
+    validationSchema,
+  });
+
+  const { errorMessage: membershipTypeError, value: membershipType } =
+    useField<string>('membershipType');
+  const {
+    errorMessage: publisherTypeError,
+    resetField: publisherTypeReset,
+    value: publisherType,
+  } = useField<string>('publisherType');
 
   const requirements = [
     'Legal Name',
@@ -47,9 +76,19 @@
     },
   ];
 
-  const submit = () => {
-    console.log('Submit');
+  const setMembershipType = (type: string) => {
+    membershipType.value = type;
+    publisherTypeReset();
   };
+
+  const submit = handleSubmit(
+    values => {
+      alert(`Valid submission: ${JSON.stringify(values)}`);
+    },
+    ({ errors }) => {
+      console.error(errors);
+    },
+  );
 </script>
 
 <template>
@@ -62,20 +101,64 @@
           v-for="card in cards"
           :key="card.title"
           :description="card.description"
-          :disabled="selectedCard !== null && selectedCard !== card.title"
+          :disabled="
+            membershipType !== undefined && membershipType !== card.title
+          "
+          :error="!!membershipTypeError"
           :fee="card.fee"
           :icon="card.icon"
           :requirements="card.requirements"
-          :selected="selectedCard === card.title"
+          :selected="membershipType === card.title"
           :title="card.title"
-          @click="selectedCard = card.title"
+          @click="setMembershipType(card.title)"
         />
       </div>
-      <footer>
-        <p :class="$style.small">
-          <span>*If you are under 18 years of age please </span>
-          <a href="#">read more about how to join ASCAP.</a>
+      <p v-if="membershipTypeError" :class="$style.error">
+        {{ membershipTypeError }}
+      </p>
+      <p :class="$style.small">
+        <span>*If you are under 18 years of age please </span>
+        <a href="#">read more about how to join ASCAP.</a>
+      </p>
+      <div
+        :class="$style.field"
+        v-if="['Writer & Publisher', 'Publisher'].includes(membershipType)"
+      >
+        <label :class="$style.label">Publisher Company Type</label>
+        <label
+          >Please select the federal tax classification of your publisher
+          company.</label
+        >
+        <div
+          :class="{
+            [$style.select]: true,
+            [$style.error]: publisherTypeError,
+          }"
+        >
+          <select
+            name="publisherType"
+            :class="{ [$style.placeholder]: publisherType === undefined }"
+            v-model="publisherType"
+          >
+            <option disabled hidden :value="undefined">
+              Publisher Company Type
+            </option>
+            <option>Individual / Sole proprietor or Single-member LLC</option>
+            <option>C Corporation</option>
+            <option>S Corporation</option>
+            <option>LLC - C Corporation</option>
+            <option>LLC - S Corporation</option>
+            <option>LLC - Partnership</option>
+            <option>Partnership</option>
+            <option>Trust / Estate</option>
+            <option>OTHER</option>
+          </select>
+        </div>
+        <p v-if="publisherTypeError" :class="$style.error">
+          {{ publisherTypeError }}
         </p>
+      </div>
+      <footer>
         <p :class="$style.small">
           <span>
             ASCAP uses TINCheck and SmartyStreets to verify certain information
@@ -165,6 +248,44 @@
   .content {
     margin: 1rem auto;
     max-width: 1080px;
+  }
+
+  p.error {
+    color: var(--danger);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5rem 0;
+    place-items: flex-start;
+    row-gap: 0.25rem;
+  }
+
+  .label {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .select {
+    display: inline-block;
+    background-color: var(--white);
+    border: 1px solid var(--gray);
+    padding: 0.25em 1em;
+    margin-top: 1em;
+
+    &.error {
+      border-color: rgb(var(--red-rgb) / 75%);
+    }
+
+    select {
+      background: none;
+      border: none;
+
+      &.placeholder {
+        color: rgb(var(--gray-dark-rgb) / 75%);
+      }
+    }
   }
 
   .subtitle {
