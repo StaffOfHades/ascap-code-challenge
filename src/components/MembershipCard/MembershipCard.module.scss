@@ -1,0 +1,92 @@
+.card {
+  border: 1px solid var(--gray);
+  background-color: rgb(var(--gray-rgb) 0.025);
+  color: var(--gray);
+  cursor: pointer;
+  flex: 1;
+  transition-property: background-color border box-shadow color;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+
+  div,
+  h2 {
+    padding: 1em 2em;
+  }
+
+  h2 {
+    background-color: rgb(var(--gray-rgb) 0.025);
+    border-bottom: 1px solid var(--gray);
+    display: flex;
+    font-size: 1.25em;
+    font-weight: 500;
+    justify-content: center;
+    margin: 0;
+    place-items: center;
+    transition-property: border background-color color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-in-out;
+
+    span {
+      margin-left: 1em;
+    }
+  }
+
+  .fee {
+    transition: color 0.25s ease-in-out;
+  }
+
+  &.selected {
+    background-color: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 0 1em 0.25em rgb(var(--gray-rgb) 0.5);
+    color: var(--gray-dark);
+
+    h2 {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+
+    .fee {
+      color: var(--primary);
+    }
+  }
+
+  &:not(.selected):hover {
+    background-color: var(--white);
+    border-color: rgb(var(--blue-rgb) 0.5);
+    color: var(--gray-dark);
+
+    h2 {
+      border-bottom-color: rgb(var(--blue-rgb) 0.5);
+      color: var(--primary);
+    }
+
+    .fee {
+      color: var(--primary);
+    }
+  }
+
+  ul {
+    list-style-type: '🗸';
+    margin-left: -1.5em;
+    margin-top: 1em;
+
+    li {
+      font-size: 1.25em;
+      font-weight: 200;
+      line-height: 1em;
+
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
+
+      span {
+        display: flex;
+        font-size: 0.8em;
+        font-weight: 400;
+        margin-left: 0.5em;
+      }
+    }
+  }
+}
