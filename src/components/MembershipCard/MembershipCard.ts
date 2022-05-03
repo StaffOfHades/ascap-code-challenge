@@ -13,6 +13,10 @@ export default defineComponent({
       default: false,
       type: Boolean,
     },
+    error: {
+      default: false,
+      type: Boolean,
+    },
     fee: {
       required: true,
       type: [Number, String],

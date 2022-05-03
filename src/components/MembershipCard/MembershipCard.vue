@@ -3,6 +3,7 @@
     :class="{
       [$style.disabled]: disabled,
       [$style.card]: true,
+      [$style.error]: error,
       [$style.selected]: selected,
     }"
     @click="$emit('click', $event)"
