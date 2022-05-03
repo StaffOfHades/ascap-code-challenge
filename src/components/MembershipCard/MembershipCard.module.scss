@@ -42,10 +42,16 @@
     transition: color 0.25s ease-in-out;
   }
 
+  &.disabled,
+  &.selected {
+    h2 {
+      transition-property: border, background, color;
+    }
+  }
+
   &.disabled {
     background-color: rgb(var(--gray-rgb) / 2.5%);
     color: var(--gray);
-    transition-property: border, background, color;
 
     h2 {
       background: rgb(var(--gray-rgb) / 2.5%);

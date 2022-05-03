@@ -19,14 +19,18 @@
       exclusive: true,
       message: 'Please select your publisher company type.',
       name: 'publisherType',
-      test: (value: string | undefined, { parent }) =>
+      test: (value, { parent }) =>
         ['Writer & Publisher', 'Publisher'].includes(parent.membershipType)
-          ? !!value
+          ? !!value && value !== 'Publisher Company Type'
           : true,
     }),
   });
 
   const { handleSubmit } = useForm({
+    initialValues: {
+      membershipType: '',
+      publisherType: 'Publisher Company Type',
+    },
     validationSchema,
   });
 
@@ -77,6 +81,11 @@
     membershipType.value = type;
     publisherTypeReset();
   };
+  const setPublisherType = (event: Event) => {
+    const select = event.target as HTMLSelectElement;
+    publisherType.value = select.value;
+    select.blur();
+  };
 
   const submit = handleSubmit(
     values => {
@@ -98,9 +107,7 @@
           v-for="card in cards"
           :key="card.title"
           :description="card.description"
-          :disabled="
-            membershipType !== undefined && membershipType !== card.title
-          "
+          :disabled="!!membershipType && membershipType !== card.title"
           :error="!!membershipTypeError"
           :fee="card.fee"
           :icon="card.icon"
@@ -122,7 +129,7 @@
         v-if="['Writer & Publisher', 'Publisher'].includes(membershipType)"
       >
         <label :class="$style.label">Publisher Company Type</label>
-        <label
+        <label :class="$style.small"
           >Please select the federal tax classification of your publisher
           company.</label
         >
@@ -134,12 +141,13 @@
         >
           <select
             name="publisherType"
-            :class="{ [$style.placeholder]: publisherType === undefined }"
-            v-model="publisherType"
+            :class="{
+              [$style.placeholder]: publisherType === 'Publisher Company Type',
+            }"
+            :value="publisherType"
+            @change="setPublisherType"
           >
-            <option disabled hidden :value="undefined">
-              Publisher Company Type
-            </option>
+            <option disabled hidden>Publisher Company Type</option>
             <option>Individual / Sole proprietor or Single-member LLC</option>
             <option>C Corporation</option>
             <option>S Corporation</option>
@@ -257,6 +265,10 @@
     margin: 2.5rem 0;
     place-items: flex-start;
     row-gap: 0.25rem;
+
+    .error {
+      margin-top: 0.25em;
+    }
   }
 
   .label {
@@ -268,8 +280,17 @@
     display: inline-block;
     background-color: var(--white);
     border: 1px solid var(--gray);
+    cursor: pointer;
     padding: 0.25em 1em;
     margin-top: 1em;
+
+    &:hover {
+      background-color: rgb(var(--gray-rgb) / 5%);
+    }
+
+    &:focus-within {
+      border-color: rgb(var(--blue-rgb) / 50%);
+    }
 
     &.error {
       border-color: rgb(var(--red-rgb) / 75%);
@@ -278,11 +299,17 @@
     select {
       background: none;
       border: none;
+      cursor: inherit;
 
       &.placeholder {
         color: rgb(var(--gray-dark-rgb) / 75%);
       }
     }
+  }
+
+  .small {
+    font-size: 0.8em;
+    font-weight: 500;
   }
 
   .subtitle {
@@ -296,10 +323,5 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 0;
-  }
-
-  p.small {
-    font-size: 0.8em;
-    font-weight: 500;
   }
 </style>
