@@ -14,7 +14,7 @@ export default defineComponent({
     size: {
       default: 'md',
       type: String,
-      validator: size =>
+      validator: (size: string) =>
         ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'].includes(size),
     },
   },

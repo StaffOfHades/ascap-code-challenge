@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from '../FontAwesomeIcon';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+
+import type { PropType } from 'vue';
 
 export default defineComponent({
   props: {
@@ -17,7 +19,7 @@ export default defineComponent({
     },
     requirements: {
       required: true,
-      type: Array,
+      type: Array as PropType<Array<string>>,
     },
     selected: {
       default: false,
