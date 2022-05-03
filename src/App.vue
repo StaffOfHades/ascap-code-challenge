@@ -142,7 +142,9 @@
         <a href="#">read more about how to join ASCAP.</a>
       </p>
       <div :class="$style.field" v-if="memberIsPublisher(membershipType)">
-        <label :class="$style.label">Publisher Company Type</label>
+        <label for="publisherType" :class="$style.label"
+          >Publisher Company Type</label
+        >
         <label :class="$style.small"
           >Please select the federal tax classification of your publisher
           company.</label
@@ -155,6 +157,7 @@
         >
           <select
             name="publisherType"
+            id="publisherType"
             :class="{
               [$style.placeholder]: publisherType === 'Publisher Company Type',
             }"
