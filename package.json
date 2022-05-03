@@ -7,7 +7,9 @@
     "preview": "vite preview --port 5050",
     "test:unit": "vitest --environment jsdom",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --format=friendly",
+    "lint": "yarn lint:js && yarn lint:css",
+    "lint:js": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --format=friendly",
+    "lint:css": "stylelint './**/*.(css|sass|vue)' --fix",
     "prepare": "husky install"
   },
   "dependencies": {
