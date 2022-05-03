@@ -1,3 +1,9 @@
+$breakpoint-lg: 992px;
+$breakpoint-md: 768px;
+$breakpoint-sm: 576px;
+$breakpoint-xl: 1200px;
+$breakpoint-xs: 0;
+
 :root {
   /* font */
   --font-family-monospace: sfmono-regular, menlo, monaco, consolas,
@@ -7,11 +13,11 @@
     'Segoe UI Emoji', 'Segoe UI Symbol';
 
   /* breakpoints */
-  --breakpoint-lg: 992px;
-  --breakpoint-md: 768px;
-  --breakpoint-sm: 576px;
-  --breakpoint-xl: 1200px;
-  --breakpoint-xs: 0;
+  --breakpoint-lg: $breakpoint-lg;
+  --breakpoint-md: $breakpoint-md;
+  --breakpoint-sm: $breakpoint-sm;
+  --breakpoint-xl: $breakpoint-xl;
+  --breakpoint-xs: $breakpoint-xs;
 
   /* base rgb colors */
   --black-rgb: 33 37 41;
@@ -60,7 +66,7 @@ html {
   font-family: sans-serif;
 }
 
-@media (min-width: 540px) {
+@media (min-width: $breakpoint-sm) {
   html {
     font-size: 16px;
   }

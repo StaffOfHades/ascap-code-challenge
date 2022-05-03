@@ -1,3 +1,9 @@
+$breakpoint-lg: 992px;
+$breakpoint-md: 768px;
+$breakpoint-sm: 576px;
+$breakpoint-xl: 1200px;
+$breakpoint-xs: 0;
+
 .card {
   border: 1px solid var(--gray-dark);
   background-color: var(--white);
@@ -122,6 +128,18 @@
         font-weight: 400;
         margin-left: 0.5em;
       }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-lg - 1px) {
+  .card ul {
+    display: flex;
+    flex-flow: row wrap;
+
+    li {
+      min-width: 196px;
+      flex: 1;
     }
   }
 }

@@ -195,6 +195,12 @@
 </template>
 
 <style module lang="scss">
+  $breakpoint-lg: 992px;
+  $breakpoint-md: 768px;
+  $breakpoint-sm: 576px;
+  $breakpoint-xl: 1200px;
+  $breakpoint-xs: 0;
+
   .button {
     background-color: var(--white);
     border: 1px solid var(--gray);
@@ -244,7 +250,7 @@
   }
 
   .cards {
-    column-gap: 1.25rem;
+    gap: 1.25rem;
     display: flex;
     flex-direction: row;
     margin-bottom: 2.5rem;
@@ -252,7 +258,31 @@
 
   .content {
     margin: 1rem auto;
-    max-width: 1080px;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    .content {
+      max-width: 1080px;
+    }
+  }
+
+  @media (max-width: $breakpoint-xl - 1px) and (min-width: $breakpoint-lg) {
+    .content {
+      max-width: 1080px;
+      padding: 0 1.5rem;
+    }
+  }
+
+  @media (max-width: $breakpoint-lg - 1px) {
+    .content {
+      margin-bottom: 1.5rem;
+      max-width: $breakpoint-sm;
+      padding: 0 1.5rem;
+    }
+
+    .cards {
+      flex-flow: column wrap;
+    }
   }
 
   p.error {
