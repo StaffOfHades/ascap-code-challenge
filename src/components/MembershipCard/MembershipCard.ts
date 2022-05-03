@@ -9,6 +9,10 @@ export default defineComponent({
       required: true,
       type: String,
     },
+    disabled: {
+      default: false,
+      type: Boolean,
+    },
     fee: {
       required: true,
       type: [Number, String],

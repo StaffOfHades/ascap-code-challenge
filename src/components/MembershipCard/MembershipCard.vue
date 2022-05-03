@@ -1,5 +1,12 @@
 <template>
-  <article :class="{ [$style.card]: true, [$style.selected]: selected }">
+  <article
+    :class="{
+      [$style.disabled]: disabled,
+      [$style.card]: true,
+      [$style.selected]: selected,
+    }"
+    @click="$emit('click', $event)"
+  >
     <h2>
       <font-awesome-icon :icon="icon" size="lg" /><span>{{ title }}</span>
     </h2>

@@ -1,10 +1,10 @@
 .card {
-  border: 1px solid var(--gray);
-  background-color: rgb(var(--gray-rgb) / 2.5%);
-  color: var(--gray);
+  border: 1px solid var(--gray-dark);
+  background-color: var(--white);
+  color: var(--gray-dark);
   cursor: pointer;
   flex: 1;
-  transition-property: background-color border box-shadow color;
+  transition-property: background-color, border, box-shadow, color;
   transition-duration: 0.25s;
   transition-timing-function: ease-in-out;
 
@@ -14,15 +14,21 @@
   }
 
   h2 {
-    background-color: rgb(var(--gray-rgb) / 2.5%);
-    border-bottom: 1px solid var(--gray);
+    background: var(--white)
+      linear-gradient(
+        -180deg,
+        var(--white) 0%,
+        rgb(var(--gray-dark-rgb) / 10%) 100%
+      );
+    border-bottom: 1px solid var(--gray-dark);
+    color: var(--primary);
     display: flex;
     font-size: 1.25em;
     font-weight: 500;
     justify-content: center;
     margin: 0;
     place-items: center;
-    transition-property: border background-color color;
+    transition-property: border, color;
     transition-duration: 0.25s;
     transition-timing-function: ease-in-out;
 
@@ -32,17 +38,31 @@
   }
 
   .fee {
+    color: var(--primary);
     transition: color 0.25s ease-in-out;
   }
 
-  &.selected {
-    background-color: var(--white);
-    border-color: var(--primary);
-    box-shadow: 0 0 1em 0.25em rgb(var(--gray-rgb) / 50%);
-    color: var(--gray-dark);
+  &.disabled {
+    background-color: rgb(var(--gray-rgb) / 2.5%);
+    color: var(--gray);
+    transition-property: border, background, color;
 
     h2 {
-      background-color: var(--primary);
+      background: rgb(var(--gray-rgb) / 2.5%);
+      color: inherit;
+    }
+
+    .fee {
+      color: inherit;
+    }
+  }
+
+  &.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 1em 0.25em rgb(var(--gray-rgb) / 50%);
+
+    h2 {
+      background: var(--primary);
       border-color: var(--primary);
       color: var(--white);
     }
@@ -58,6 +78,7 @@
     color: var(--gray-dark);
 
     h2 {
+      background: rgb(var(--gray-rgb) / 2.5%);
       border-bottom-color: rgb(var(--blue-rgb) / 50%);
       color: var(--primary);
     }
