@@ -77,3 +77,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition-duration: 0.25s;
+  transition-property: color, text-decoration;
+  transition-timing-function: ease-in-out;
+
+  &:active,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &:active,
+  &:hover {
+    color: rgb(var(--blue-rgb) / 75%);
+  }
+}

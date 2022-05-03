@@ -4,8 +4,8 @@
   color: var(--gray-dark);
   cursor: pointer;
   flex: 1;
-  transition-property: background-color, border, box-shadow, color;
   transition-duration: 0.25s;
+  transition-property: background-color, border, box-shadow, color;
   transition-timing-function: ease-in-out;
 
   div,
@@ -28,8 +28,8 @@
     justify-content: center;
     margin: 0;
     place-items: center;
-    transition-property: border, color;
     transition-duration: 0.25s;
+    transition-property: border, color;
     transition-timing-function: ease-in-out;
 
     span {
