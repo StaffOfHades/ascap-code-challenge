@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { MembershipCard } from './components/MembershipCard';
+  import { ref } from 'vue';
   import { useForm, useField } from 'vee-validate';
   import * as yup from 'yup';
 
@@ -11,6 +12,9 @@
     requirements: Array<string>;
   }
 
+  const memberIsPublisher = (memberType: string) =>
+    ['Writer & Publisher', 'Publisher'].includes(memberType);
+
   const validationSchema = yup.object({
     membershipType: yup
       .string()
@@ -20,11 +24,13 @@
       message: 'Please select your publisher company type.',
       name: 'publisherType',
       test: (value, { parent }) =>
-        ['Writer & Publisher', 'Publisher'].includes(parent.membershipType)
+        memberIsPublisher(parent.membershipType)
           ? !!value && value !== 'Publisher Company Type'
           : true,
     }),
   });
+
+  const successMessage = ref<string | null>(null);
 
   const { handleSubmit } = useForm({
     initialValues: {
@@ -79,17 +85,28 @@
 
   const setMembershipType = (type: string) => {
     membershipType.value = type;
+    successMessage.value = null;
     publisherTypeReset();
   };
   const setPublisherType = (event: Event) => {
     const select = event.target as HTMLSelectElement;
     publisherType.value = select.value;
+    successMessage.value = null;
     select.blur();
   };
 
   const submit = handleSubmit(
     values => {
-      alert(`Valid submission: ${JSON.stringify(values)}`);
+      let messages = [
+        'Success!',
+        `A member type of "${values.membershipType}" was selected.`,
+      ];
+      if (memberIsPublisher(values.membershipType)) {
+        messages.push(
+          `Since you are a publisher, you have declared its of type "${values.publisherType}".`,
+        );
+      }
+      successMessage.value = messages.join(' ');
     },
     ({ errors }) => {
       console.error(errors);
@@ -124,10 +141,7 @@
         <span>*If you are under 18 years of age please </span>
         <a href="#">read more about how to join ASCAP.</a>
       </p>
-      <div
-        :class="$style.field"
-        v-if="['Writer & Publisher', 'Publisher'].includes(membershipType)"
-      >
+      <div :class="$style.field" v-if="memberIsPublisher(membershipType)">
         <label :class="$style.label">Publisher Company Type</label>
         <label :class="$style.small"
           >Please select the federal tax classification of your publisher
@@ -195,6 +209,9 @@
           </button>
         </div>
       </footer>
+      <p v-if="successMessage !== null" :class="$style.success">
+        {{ successMessage }}
+      </p>
     </form>
   </main>
 </template>
@@ -352,6 +369,12 @@
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 2.5em;
+  }
+
+  .success {
+    color: var(--success);
+    font-size: 0.95em;
+    font-weight: 600;
   }
 
   .title {
